@@ -8,7 +8,7 @@
     <h1>Sistema de Biblioteca</h1>
     <h2>Lista de Livros</h2>
 
-    <a href="View/CadastrarLivros.php">Cadastrar Novo Livro</a>
+    <a href="index.php?acao=cadastrar">Cadastrar Novo Livro</a>
     <hr>
 
     <table border="1">
@@ -35,7 +35,9 @@
                     
                     echo "<td>";
                     echo "<a href='#'>Editar</a> | ";
-                    echo "<a href='#'>Excluir</a>";
+
+                    $link_excluir = "index.php?acao=excluir&id=" .$livro['id'];
+                    echo "<a href='". $link_excluir . "' onclick='return confirm (\"Tem certeza que deseja excluir este livro? \")'>Excluir</a>";
                     echo "</td>";
 
                     echo "</tr>";
