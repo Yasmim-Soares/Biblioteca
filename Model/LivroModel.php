@@ -16,7 +16,7 @@ function cadastrarLivro($pdo, $nome, $autor, $status){
         $stmt = $pdo->prepare($sql);
         $stmt->execute([$nome, $autor, $status]);
         
-        return $stmt->lastInsertId();
+        return $pdo->lastInsertId();
     } catch(PDOException $e){
        // die("Erro ao cadastrar livro: " .$e->getMessage());
         return false;

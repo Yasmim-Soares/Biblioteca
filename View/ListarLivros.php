@@ -8,6 +8,11 @@
     <h1>Sistema de Biblioteca</h1>
     <h2>Lista de Livros</h2>
 
+     <div>
+        olá,<?php echo htmlspecialchars($_SESSION['usuarioEmail']); ?>!
+        <a href="index.php?acao=logout" style="color: red; text-decoration: none;">[Sair]</a>
+    </div>
+
     <a href="index.php?acao=cadastrar">Cadastrar Novo Livro</a>
     <hr>
 
@@ -48,5 +53,6 @@
             ?>
         </tbody>
     </table>
+
 </body>                                       
 </html>
