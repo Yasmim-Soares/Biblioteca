@@ -1,27 +1,47 @@
+<?php
+    
+    $id = '';
+    $nome = '';
+    $autor = '';
+    $status = 1;
+    $titulo = "Cadastrar Novo Livro";
+
+    if (isset($livro) && $livro) {
+        $id = $livro['id'];
+        $nome = $livro['nome'];
+        $autor = $livro['autor'];
+        $status = $livro['status'];
+        $titulo = 'Editar livro';
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
-    <title>Cadastrar Livro</title>
+    <title>Biblioteca | <?php echo $titulo?></title>
 </head>
 
 <body>
     <h1>Sistema de Biblioteca</h1>
-    <h2>Cadastro de Livros</h2>
+    <h2><?php echo $titulo?></h2>
 
     <form action="index.php" method="POST">
+
+        <input type="hidden" name="id" value="<?php echo $id; ?>">
+
         <label for="nome">Nome do Livro:</label><br>
-        <input type="text" id="name" name="nome"><br><br>
+        <input type="text" id="nome" name="nome" value="<?php echo htmlspecialchars($nome);?>" required><br><br>
         
         <label for="autor">Autor: </label><br>
-        <input type="text" id="autor" name="autor"><br><br>
+        <input type="text" id="autor" name="autor" value="<?php echo htmlspecialchars($autor);?>" required><br><br>
 
-        <label for="status">Status</label><br>
+        <label>Status</label><br>
 
-        <input type="radio" id="disponivel" name="status" value="1" checked>
+        <input type="radio" id="disponivel" name="status" value="1" <?php echo($status == 1)? 'checked' : '' ;?>>
         <label for="disponivel">Disponível</label><br>
-        <input type="radio" id="emprestado" name="status" value="0">
+        <input type="radio" id="emprestado" name="status" value="0" <?php echo($status == 0)? 'checked' : '' ;?>>
         <label for="emprestado">Emprestado</label><br><br>
 
         <input type="submit" value="Salvar Livro">

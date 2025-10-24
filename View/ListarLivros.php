@@ -34,7 +34,7 @@
 
                     
                     echo "<td>";
-                    echo "<a href='#'>Editar</a> | ";
+                    echo "<a href='index.php?acao=editar&id=" .$livro['id']."'>Editar</a> | ";
 
                     $link_excluir = "index.php?acao=excluir&id=" .$livro['id'];
                     echo "<a href='". $link_excluir . "' onclick='return confirm (\"Tem certeza que deseja excluir este livro? \")'>Excluir</a>";
