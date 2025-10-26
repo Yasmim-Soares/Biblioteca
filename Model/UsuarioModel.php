@@ -23,4 +23,16 @@ function verificarUsuario($pdo, $email, $senha){
         return false;
     }
 }
+
+function cadastrarUsuario($pdo, $email, $senha){
+    $hashSenha = password_hash($senha, PASSWORD_DEFAULT);
+    $sql = "INSERT INTO usuarios (email, senha) VALUES (?, ?)";
+    
+    try{
+    $stmt = $pdo->prepare($sql);
+    return $stmt->execute([$email, $hashSenha]);
+    } catch(PDOException $e){
+        return false;
+    }
+}
 ?>

@@ -3,18 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <title>Biblioteca</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Sistema de Biblioteca</h1>
+    <header class="main-header">
+        <div class="header-left">
+            Olá, <?php echo htmlspecialchars($_SESSION['usuarioEmail']); ?>!
+            <a href="index.php?acao=logout" class="logout-link-header">Sair</a>
+        </div>
+
+        <div class="header-center">
+            Sistema de Biblioteca
+        </div>
+
+        <div class="header-right">
+        </div>
+    </header>
+
     <h2>Lista de Livros</h2>
 
-     <div>
-        olá,<?php echo htmlspecialchars($_SESSION['usuarioEmail']); ?>!
-        <a href="index.php?acao=logout" style="color: red; text-decoration: none;">[Sair]</a>
-    </div>
 
-    <a href="index.php?acao=cadastrar">Cadastrar Novo Livro</a>
-    <hr>
+    <form action="index.php" method="GET">
+        <input type="hidden" name="acao" value="listar">
+
+        <label for="busca">Buscar por Nome:</label>
+        <p input-busca>
+        <input type="text" id="busca" name="busca" placeholder="Digite o nome do livro..." value="<?php echo htmlspecialchars($busca ?? '');?>">
+        </p>
+
+        <p button-busca>
+        <button type="submit">Buscar</button>
+        </p>
+    </form><br><br>
 
     <table border="1">
         <thead>
@@ -53,6 +73,8 @@
             ?>
         </tbody>
     </table>
-
+    <p class="link-centro">
+    <a href="index.php?acao=cadastrar">Cadastrar Novo Livro</a>
+    </p>
 </body>                                       
 </html>

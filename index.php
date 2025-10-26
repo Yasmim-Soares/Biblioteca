@@ -6,6 +6,7 @@ require_once 'model/LivroModel.php';
 require_once 'model/UsuarioModel.php';
 
 $login = $_POST['login'] ?? null;
+$acao_register = $_POST['register'] ?? null;
 $acao = $_GET['acao'] ?? null;
 
 if($login == 'login'){
@@ -21,10 +22,38 @@ if($login == 'login'){
         header('Location: index.php');
         exit;
     } else {
-        $erro_login = true;
+        $erroLogin = true;
     }
 }
 
+
+elseif ($acao_register == 'register'){
+    $email = $_POST['email'];
+    $senha = $_POST['senha'];
+    $confirmarSenha = $_POST['confirmarSenha'];
+
+    if (strlen($senha) < 8) {
+        $erro_register = "A senha deve ter pelo menos 8 caracteres.";
+    } 
+    elseif (!preg_match('/[a-zA-Z]/', $senha)) {
+        $erro_register = "A senha deve conter pelo menos uma letra.";
+    } 
+    elseif (!preg_match('/\d/', $senha)) { 
+        $erro_register = "A senha deve conter pelo menos um número.";
+    } 
+    elseif ($senha !== $confirmarSenha) {
+        $erro_register = "As senhas não conferem.";
+    } else {
+        $sucesso = cadastrarUsuario($pdo, $email, $senha);
+
+        if($sucesso){
+          header('Location: index.php?cadastro=sucesso');
+          exit;
+        }else {
+          $erro_register = "Erro ao cadastrar. Este e-mail já pode estar em uso. ";
+        }
+    }
+}
     if($acao == 'logout'){
         session_unset();
         session_destroy();
@@ -34,7 +63,7 @@ if($login == 'login'){
     }
 
     if(isset($_SESSION['usuarioId'])){
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['nome'])) {
             if (isset($_POST['nome']) && isset($_POST['autor']) && isset($_POST['status'])) {
 
                 $nome = $_POST['nome'];
@@ -56,26 +85,26 @@ if($login == 'login'){
     else {
     switch($acao){
         case 'cadastrar':
-            require_once 'view/FormLivros.php';
+            require_once 'View/FormLivros.php';
         break;
 
         case 'listar':
         default:
-            $livros = listarTodosLivros($pdo);
-            require_once 'view/ListarLivros.php';
-        break;
+            $busca = $_GET['busca'] ?? '';
+            $livros = listarTodosLivros($pdo, $busca);
+            require_once 'View/ListarLivros.php';
+            break;
 
         case 'excluir':
             if (isset($_GET['id'])){
                 $id = $_GET['id'];
                 excluirLivro($pdo, $id);
+            }
                 header('Location: index.php');
                 exit;
-            }
-        break;
+                break;
 
-        case 'editar':
-            try{               
+        case 'editar':            
                 if(isset($_GET['id'])){
                     $id = $_GET['id'];
                     $livro = buscarLivroPorId($pdo, $id);                 
@@ -85,13 +114,19 @@ if($login == 'login'){
                     header('Location: index.php');
                     exit;
                 }
-            } catch (PDOException $e) {
-                $e->getMessage();
-            }
-        break;
-    }
+                 break;
+        }
     }
 } else {
-    require_once 'view/login.php';
+    if(isset($_GET['cadastro']) && $_GET['cadastro'] == 'sucesso'){
+        $erroLogin = "Cadastro realizado com sucesso! Faça seu login.";
+    }
+
+    if($acao == 'register' || isset($erro_register)){
+        require_once 'View/Registro.php';
+    } else {
+        require_once 'View/login.php';
+    }
 }
+ 
 ?>

@@ -1,11 +1,23 @@
 <?php
 
-function listarTodosLivros($pdo){
+function listarTodosLivros($pdo, $busca = ''){
+    $sql = "SELECT * FROM livros";
 
-    $sql = "SELECT * FROM livros ORDER BY nome ASC";
+    $params = []; 
+    if(!empty($busca)){
+        $sql .= " WHERE nome LIKE ?";
+        $params[] = "%" . $busca . "%";
+    }
 
-    $stmt = $pdo->query($sql);
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $sql .= " ORDER BY nome ASC";
+    try{
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute($params);
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e){
+        return [];
+    }
 }
 
 

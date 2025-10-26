@@ -21,10 +21,14 @@
 <head>
     <meta charset="UTF-8">
     <title>Biblioteca | <?php echo $titulo?></title>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <h1>Sistema de Biblioteca</h1>
+    <header class="main-header">
+        <div class="header-left"></div> <div class="header-center">Sistema de Biblioteca</div>
+    <div class="header-right"></div> 
+    </header>
     <h2><?php echo $titulo?></h2>
 
     <form action="index.php" method="POST">
@@ -44,7 +48,7 @@
         <input type="radio" id="emprestado" name="status" value="0" <?php echo($status == 0)? 'checked' : '' ;?>>
         <label for="emprestado">Emprestado</label><br><br>
 
-        <input type="submit" value="Salvar Livro">
+        <button type="submit">Cadastrar</button>
     </form>
 
     <br>
